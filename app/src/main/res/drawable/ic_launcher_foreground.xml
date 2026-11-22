@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Foreground of the adaptive icon: shield with a struck-through "AD".
+     The 120x120 source design (images/ic_launcher.svg) is scaled by 0.7 and centered
+     in the 108dp viewport so it stays inside the adaptive icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="108dp"
+        android:height="108dp"
+        android:viewportWidth="108"
+        android:viewportHeight="108">
+    <group
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:translateX="12"
+            android:translateY="12">
+        <path
+                android:fillColor="#00000000"
+                android:strokeColor="#0F172A"
+                android:strokeWidth="7"
+                android:strokeLineJoin="round"
+                android:pathData="M60,18 L96,31 L96,60 C96,80 81,94 60,102 C39,94 24,80 24,60 L24,31 Z"/>
+        <path
+                android:fillColor="#00000000"
+                android:strokeColor="#0F172A"
+                android:strokeWidth="4.5"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M42.25,69.25 L49.75,50.75 L57.25,69.25 M45,63.25 L54.5,63.25"/>
+        <path
+                android:fillColor="#00000000"
+                android:strokeColor="#0F172A"
+                android:strokeWidth="4.5"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M63.75,50.75 L67.5,50.75 C74,50.75 77.75,54.5 77.75,60 C77.75,65.5 74,69.25 67.5,69.25 L63.75,69.25 Z"/>
+        <!-- knock-out gap (same color as the background) and red band -->
+        <path
+                android:fillColor="#00000000"
+                android:strokeColor="#38BDF8"
+                android:strokeWidth="11"
+                android:strokeLineCap="round"
+                android:pathData="M29.4,90.6 L95.8,24.2"/>
+        <path
+                android:fillColor="#00000000"
+                android:strokeColor="#EF4444"
+                android:strokeWidth="6"
+                android:strokeLineCap="round"
+                android:pathData="M29.4,90.6 L95.8,24.2"/>
+    </group>
+</vector>
