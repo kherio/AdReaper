@@ -27,7 +27,7 @@
         显示应用程序详情
     </string>
     <string name="intro_app_detail_content">
-        点击应用程序名称可以获取 MinMinGuard 的详细拦截信息
+        点击应用程序名称可以获取 AdReaper 的详细拦截信息
     </string>
     <string name="intro_url_filtering_title">
         URL 过滤
