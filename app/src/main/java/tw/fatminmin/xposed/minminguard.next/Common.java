@@ -39,6 +39,12 @@ public class Common
     // User-defined ad-view class prefixes (newline separated, added in Settings)
     public final static String KEY_USER_BLOCK_PREFIXES = "user_block_prefixes";
 
+    // User-defined per-app rules, JSON (see blocker/AppRules.java for the schema)
+    public final static String KEY_USER_APP_RULES = "user_app_rules";
+
+    // Inspector mode: log suspicious ad views / activities of enabled apps
+    public final static String KEY_INSPECTOR_MODE = "inspector_mode";
+
     // Fragment Name
     public final static String FRG_MAIN = "main_fragment";
 

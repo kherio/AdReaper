@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">MinMinGuard Next</string>
+    <string name="app_name" translatable="false">AdReaper</string>
 
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
@@ -83,6 +83,11 @@
     <string name="setting_import_config">Import configuration</string>
     <string name="setting_user_prefixes">Custom ad class prefixes</string>
     <string name="setting_user_prefixes_hint">One class name prefix per line, e.g.\ncom.example.adnetwork\nViews from matching classes are treated as ads.</string>
+    <string name="setting_user_rules">Custom app rules (JSON)</string>
+    <string name="setting_user_rules_hint">{"apps":{"com.example.app":{"hide_view_ids":["ad_container"],"hide_view_classes":["com.foo.BannerView"],"kill_activities":["com.foo.AdActivity"],"block_methods":["com.foo.Ads#show"]}}}</string>
+    <string name="msg_user_rules_saved">Rules saved. Restart the affected app to apply them.</string>
+    <string name="msg_user_rules_invalid">Invalid JSON, rules not saved</string>
+    <string name="msg_inspector_mode">Inspector mode: log suspected ad views and activities in the Xposed log</string>
     <string name="msg_config_exported">Configuration exported</string>
     <string name="msg_config_imported">Configuration imported</string>
     <string name="msg_config_import_failed">Import failed: invalid file</string>

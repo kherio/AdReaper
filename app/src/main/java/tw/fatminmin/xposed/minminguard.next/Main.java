@@ -24,7 +24,9 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import tw.fatminmin.xposed.minminguard.next.blocker.ActivityBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.ApiBlocking;
+import tw.fatminmin.xposed.minminguard.next.blocker.AppRules;
 import tw.fatminmin.xposed.minminguard.next.blocker.Blocker;
+import tw.fatminmin.xposed.minminguard.next.blocker.Inspector;
 import tw.fatminmin.xposed.minminguard.next.blocker.NameBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.UrlFiltering;
 import tw.fatminmin.xposed.minminguard.next.blocker.Util;
@@ -159,6 +161,9 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
            from the module APK works on every framework. */
         UnpackResources();
 
+        /* Bundled data-driven blocking rules (assets/rules/app_rules.json). */
+        AppRules.init(MODULE_PATH);
+
         Util.notifyWorker = Executors.newSingleThreadExecutor();
 
         if (xposedVersionCode < 93) {
@@ -274,11 +279,17 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
                 if (isEnabled(pref, packageName))
                 {
-                    Util.log(packageName, "is enabled for MinMinGuard");
+                    Util.log(packageName, "is enabled for AdReaper");
 
                     // Api based blocking
                     ApiBlocking.handle(packageName, lpparam, param);
                     appSpecific(packageName, lpparam);
+
+                    // Data-driven method rules (bundled modern SDK list + user rules)
+                    AppRules.applyMethodRules(packageName, lpparam);
+
+                    // Optional discovery mode: logs views / activities that look like ads
+                    Inspector.install(packageName, lpparam);
 
                     // Name based blocking
                     NameBlocking.nameBasedBlocking(packageName, lpparam);

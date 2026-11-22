@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "apps": {
+    "*": {
+      "hide_view_classes": [
+        "com.applovin.mediation.ads.MaxAdView",
+        "com.applovin.mediation.nativeAds.MaxNativeAdView",
+        "com.applovin.adview.AppLovinAdView",
+        "com.unity3d.mediation.LevelPlayBannerAdView",
+        "com.unity3d.services.banners.BannerView",
+        "com.ironsource.mediationsdk.IronSourceBannerLayout",
+        "com.vungle.ads.VungleBannerView",
+        "com.chartboost.sdk.ads.Banner",
+        "com.google.android.gms.ads.nativead.NativeAdView",
+        "com.google.android.gms.ads.admanager.AdManagerAdView",
+        "com.smaato.sdk.banner.widget.BannerView",
+        "com.kakao.adfit.ads.ba.BannerAdView"
+      ],
+      "kill_activities": [
+        "com.google.android.gms.ads.AdActivity",
+        "com.applovin.adview.AppLovinFullscreenActivity",
+        "com.applovin.adview.AppLovinInterstitialActivity",
+        "com.unity3d.services.ads.adunit.",
+        "com.ironsource.sdk.controller.ControllerActivity",
+        "com.ironsource.sdk.controller.InterstitialActivity",
+        "com.vungle.ads.internal.ui.VungleActivity",
+        "com.vungle.warren.ui.VungleActivity",
+        "com.vungle.warren.ui.VungleFlexViewActivity",
+        "com.facebook.ads.AudienceNetworkActivity",
+        "com.chartboost.sdk.view.CBImpressionActivity",
+        "com.inmobi.ads.rendering.InMobiAdActivity",
+        "com.adcolony.sdk.AdColonyInterstitialActivity",
+        "com.adcolony.sdk.AdColonyAdViewActivity",
+        "com.mbridge.msdk.interstitial.view.MBInterstitialActivity",
+        "com.mbridge.msdk.reward.player.MBRewardVideoActivity",
+        "com.mbridge.msdk.newreward.player.MBRewardVideoActivity",
+        "com.bytedance.sdk.openadsdk.activity.TTFullScreenExpressVideoActivity",
+        "com.bytedance.sdk.openadsdk.activity.TTRewardExpressVideoActivity",
+        "com.smaato.sdk.interstitial.InterstitialAdActivity",
+        "com.smaato.sdk.rewarded.widget.RewardedAdActivity",
+        "com.fyber.inneractive.sdk.activities.InneractiveFullscreenAdActivity"
+      ],
+      "block_methods": [
+        "com.google.android.gms.ads.interstitial.InterstitialAd#load",
+        "com.google.android.gms.ads.rewarded.RewardedAd#load",
+        "com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd#load",
+        "com.google.android.gms.ads.appopen.AppOpenAd#load",
+        "com.google.android.gms.ads.admanager.AdManagerInterstitialAd#load",
+        "com.google.android.gms.ads.BaseAdView#loadAd",
+        "com.google.android.gms.ads.admanager.AdManagerAdView#loadAd",
+
+        "com.applovin.mediation.nativeAds.MaxNativeAdLoader#loadAd",
+        "com.applovin.mediation.ads.MaxAppOpenAd#loadAd",
+        "com.applovin.mediation.ads.MaxAppOpenAd#showAd",
+        "com.applovin.mediation.ads.MaxRewardedInterstitialAd#loadAd",
+        "com.applovin.mediation.ads.MaxRewardedInterstitialAd#showAd",
+        "com.applovin.mediation.ads.MaxInterstitialAd#showAd",
+        "com.applovin.mediation.ads.MaxRewardedAd#showAd",
+
+        "com.unity3d.mediation.LevelPlayInterstitialAd#loadAd",
+        "com.unity3d.mediation.LevelPlayInterstitialAd#showAd",
+        "com.unity3d.mediation.LevelPlayRewardedAd#loadAd",
+        "com.unity3d.mediation.LevelPlayRewardedAd#showAd",
+        "com.unity3d.mediation.LevelPlayBannerAdView#loadAd",
+        "com.unity3d.services.banners.BannerView#load",
+        "com.unity3d.ads.UnityAds#load",
+
+        "com.ironsource.mediationsdk.IronSource#loadInterstitial",
+        "com.ironsource.mediationsdk.IronSource#showInterstitial",
+        "com.ironsource.mediationsdk.IronSource#loadRewardedVideo",
+        "com.ironsource.mediationsdk.IronSource#showRewardedVideo",
+        "com.ironsource.mediationsdk.IronSource#loadBanner",
+        "com.ironsource.mediationsdk.IronSource#isInterstitialReady",
+        "com.ironsource.mediationsdk.IronSource#isRewardedVideoAvailable",
+
+        "com.vungle.ads.BaseAd#load",
+        "com.vungle.ads.BaseAd#play",
+        "com.vungle.ads.InterstitialAd#load",
+        "com.vungle.ads.InterstitialAd#play",
+        "com.vungle.ads.RewardedAd#load",
+        "com.vungle.ads.RewardedAd#play",
+        "com.vungle.ads.NativeAd#load",
+        "com.vungle.ads.BannerAd#load",
+        "com.vungle.ads.VungleBannerView#load",
+
+        "com.facebook.ads.InterstitialAd#show",
+        "com.facebook.ads.RewardedVideoAd#loadAd",
+        "com.facebook.ads.RewardedVideoAd#show",
+        "com.facebook.ads.RewardedInterstitialAd#loadAd",
+        "com.facebook.ads.RewardedInterstitialAd#show",
+        "com.facebook.ads.NativeBannerAd#loadAd",
+
+        "com.chartboost.sdk.ads.Interstitial#cache",
+        "com.chartboost.sdk.ads.Interstitial#show",
+        "com.chartboost.sdk.ads.Rewarded#cache",
+        "com.chartboost.sdk.ads.Rewarded#show",
+        "com.chartboost.sdk.ads.Banner#cache",
+        "com.chartboost.sdk.ads.Banner#show",
+
+        "com.smaato.sdk.interstitial.Interstitial#loadAd",
+        "com.smaato.sdk.rewarded.RewardedInterstitial#loadAd",
+        "com.smaato.sdk.banner.widget.BannerView#loadAd"
+      ]
+    }
+  }
+}

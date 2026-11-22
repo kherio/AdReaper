@@ -85,6 +85,12 @@ public final class ActivityBlocking
 
     private static boolean matches(String clazz, String packageName, XC_LoadPackage.LoadPackageParam lpparam)
     {
+        /* Data-driven rules (bundled + user "kill_activities"). */
+        if (AppRules.matchesActivity(packageName, clazz))
+        {
+            return true;
+        }
+
         for (String prefix : KNOWN_ACTIVITY_PREFIXES)
         {
             if (clazz.startsWith(prefix))

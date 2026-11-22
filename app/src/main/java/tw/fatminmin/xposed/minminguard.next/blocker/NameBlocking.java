@@ -103,6 +103,13 @@ public final class NameBlocking
 
     private static Boolean isAdView(Context context, String pkgName, View view)
     {
+        // data-driven rules (bundled + user): view class prefixes and view id names
+        if (AppRules.matchesView(pkgName, view))
+        {
+            Util.notifyAdNetwork(context, pkgName, "Rules");
+            return true;
+        }
+
         Class clazz = view.getClass();
         // find also parent classes
         int level = 1;
