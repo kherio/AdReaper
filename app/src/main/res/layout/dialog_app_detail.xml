@@ -37,7 +37,7 @@
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        tools:text="MinMinGuard Next"/>
+                        tools:text="AdReaper"/>
 
                 <TextView
                         android:id="@+id/detail_pkg_name"

@@ -36,7 +36,9 @@ android {
             /* Sign with the real release key when the signing secrets are present
                (set in CI); otherwise produce an unsigned APK that CI signs with
                uber-apk-signer, matching the historical flow. */
-            if (System.getenv("KEYSTORE_PASS") != null && System.getenv("KEY_PASS") != null) {
+            /* CI passes missing secrets as empty strings (not null), so test for a non-empty
+               value; otherwise forks without secrets try to sign with the repo keystore and fail. */
+            if (System.getenv("KEYSTORE_PASS") && System.getenv("KEY_PASS")) {
                 signingConfig signingConfigs.release
             }
         }

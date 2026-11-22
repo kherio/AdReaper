@@ -50,6 +50,7 @@ public class SettingsDialogFragment extends DialogFragment
     private MaterialCheckBox mCbShowDebugInfo;
     private MaterialCheckBox mCbShowLauncherIcon;
     private MaterialCheckBox mCbEnableCr;
+    private MaterialCheckBox mCbInspectorMode;
 
     private final ActivityResultLauncher<String> mExportLauncher =
             registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), uri ->
@@ -96,14 +97,18 @@ public class SettingsDialogFragment extends DialogFragment
         mCbShowLauncherIcon = v.findViewById(R.id.cb_show_launcher_icon);
         mCbShowLauncherIcon.setChecked(mUiPref.getBoolean(Common.KEY_SHOW_LAUNCHER_ICON, true));
 
+        mCbInspectorMode = v.findViewById(R.id.cb_inspector_mode);
+        mCbInspectorMode.setChecked(mModPref.getBoolean(Common.KEY_INSPECTOR_MODE, false));
+
         mCbEnableCr = v.findViewById(R.id.cb_enable_cr);
         mCbEnableCr.setChecked(mUiPref.getBoolean(Common.KEY_ENABLE_CRASH_REPORT, false));
 
         v.findViewById(R.id.btn_theme).setOnClickListener(view -> showThemeDialog());
         v.findViewById(R.id.btn_sort).setOnClickListener(view -> showSortDialog());
         v.findViewById(R.id.btn_user_prefixes).setOnClickListener(view -> showUserPrefixesDialog());
+        v.findViewById(R.id.btn_user_rules).setOnClickListener(view -> showUserRulesDialog());
         v.findViewById(R.id.btn_export).setOnClickListener(view ->
-                mExportLauncher.launch("MinMinGuardNext-config.json"));
+                mExportLauncher.launch("AdReaper-config.json"));
         v.findViewById(R.id.btn_import).setOnClickListener(view ->
                 mImportLauncher.launch(new String[]{"application/json", "text/plain", "*/*"}));
 
@@ -117,6 +122,10 @@ public class SettingsDialogFragment extends DialogFragment
                 mUiPref.edit()
                         .putBoolean(Common.KEY_SHOW_SYSTEM_APPS, mCbShowSystemApps.isChecked())
                         .putBoolean(Common.KEY_ENABLE_CRASH_REPORT, mCbEnableCr.isChecked())
+                        .apply();
+
+                mModPref.edit()
+                        .putBoolean(Common.KEY_INSPECTOR_MODE, mCbInspectorMode.isChecked())
                         .apply();
 
                 setLauncherIconEnabled(mCbShowLauncherIcon.isChecked());
@@ -242,6 +251,42 @@ public class SettingsDialogFragment extends DialogFragment
                             edit.getText().toString().trim()).apply();
                     Snackbar.make(requireView(), R.string.msg_config_exported, Snackbar.LENGTH_SHORT)
                             .show();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void showUserRulesDialog()
+    {
+        final EditText edit = new EditText(requireContext());
+        edit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        edit.setMinLines(8);
+        edit.setText(mModPref.getString(Common.KEY_USER_APP_RULES, ""));
+        edit.setHint(R.string.setting_user_rules_hint);
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_user_rules)
+                .setView(edit)
+                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                {
+                    String text = edit.getText().toString().trim();
+                    if (!text.isEmpty())
+                    {
+                        try
+                        {
+                            new JSONObject(text);
+                        }
+                        catch (JSONException e)
+                        {
+                            Toast.makeText(requireContext(), R.string.msg_user_rules_invalid,
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                    mModPref.edit().putString(Common.KEY_USER_APP_RULES, text).apply();
+                    Toast.makeText(requireContext(), R.string.msg_user_rules_saved,
+                            Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

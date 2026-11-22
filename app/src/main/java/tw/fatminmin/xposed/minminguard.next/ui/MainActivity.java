@@ -75,11 +75,11 @@ public class MainActivity extends AppCompatActivity
                     showIntro();
                     break;
                 case R.id.action_donate:
-                    Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/rushiranpise/MinMinGuard-Next"));
+                    Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kherio/AdReaper"));
                     startActivity(it);
                     break;
                 case R.id.action_about:
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/rushiranpise/MinMinGuard-Next")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kherio/AdReaper")));
                     break;
                 default:
                     break;
