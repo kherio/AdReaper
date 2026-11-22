@@ -5,19 +5,17 @@
 # AdReaper
 
 > **AdReaper** is an in-app ad remover for Android, built as an LSPosed / Vector (Xposed) module.
-> It is a fork of [MinMinGuard Next](https://github.com/rushiranpise/MinMinGuard-Next), itself the
-> maintained successor of the original MinMinGuard by fatminmin, and it adds data-driven blocking
-> rules and an inspector aimed at the ads that DNS / hosts based blockers cannot touch.
+> It focuses on the ads that DNS / hosts based blockers cannot touch, with data-driven blocking
+> rules and an inspector to track down the ones that still get through.
 
 - [Introduction](#introduction)
-- [What's new compared to MinMinGuard Next](#whats-new-compared-to-minminguard-next)
+- [Highlights](#highlights)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Blocking rules](#blocking-rules)
 - [Inspector mode](#inspector-mode)
 - [Developing and Contributing](#developing-and-contributing)
 - [Building](#building)
-- [Credits](#credits)
 - [Legal and Licensing](#legal-and-licensing)
 
 ## Introduction
@@ -42,23 +40,20 @@ How it works:
 - **Per-app control** – Auto / Blacklist / Whitelist modes with per-app toggles and blocking
   statistics.
 
-## What's new compared to MinMinGuard Next
+## Highlights
 
 - **Rule engine** (`blocker/AppRules.java`): block methods, hide views and kill activities from JSON
   without writing or recompiling Java. Rules are loaded from `assets/rules/app_rules.json` and from
   *Settings -> Custom app rules (JSON)*.
-- **Modern ad SDK coverage** in the bundled rules. The existing Java blockers mostly target the
-  legacy SDK APIs; the bundled rules add the current entry points of Google Mobile Ads
+- **Modern ad SDK coverage** in the bundled rules: the current entry points of Google Mobile Ads
   (`InterstitialAd.load`, `RewardedAd.load`, `AppOpenAd.load`, ...), AppLovin MAX, Unity LevelPlay /
   IronSource, Liftoff (Vungle) 7+, Meta Audience Network, Chartboost 9+, Smaato, and the full-screen
   activities of the major SDKs.
 - **Inspector mode**: finds the ads that are still getting through and prints a ready-to-paste rule
   for them (see [Inspector mode](#inspector-mode)).
-- Renamed app and build artifacts.
 
-> **Note:** the Android package id is still `tw.fatminmin.xposed.minminguard.next`, so existing
-> settings and module scope keep working. This also means AdReaper cannot be installed next to
-> MinMinGuard Next. Uninstall it first if the signatures differ.
+> **Note:** the Android package id is a legacy one inherited from the original code base. It is kept
+> so existing settings and module scope keep working.
 
 ## Compatibility
 
@@ -164,7 +159,7 @@ Write a Java blocker only when you need logic that rules cannot express:
     with a decompiler (jadx / APKTool) and look for the SDK's package root. Identify the **banner
     view class** and the **loading/showing methods** (`loadAd`, `showInterstitial`, ...).
 2.  **Create a blocker class** in
-    `app/src/main/java/tw/fatminmin/xposed/minminguard.next/blocker/adnetwork/`, extending `Blocker`.
+    `app/src/main/java/**/blocker/adnetwork/`, extending `Blocker`.
 3.  **Register it** in the `blockers` array in `Main.java`.
 4.  **Build, install, enable, and test** in LSPosed.
 
@@ -227,12 +222,6 @@ The Xposed API (`de.robv.android.xposed`, API 93) is compiled from the
 to keep the build hermetic. It is a compile-time stub; the real implementation comes from the
 framework at runtime.
 
-## Credits
-
-- [fatminmin](https://github.com/fatminmin) – original MinMinGuard.
-- [rushiranpise](https://github.com/rushiranpise/MinMinGuard-Next) – MinMinGuard Next, the base of
-  this project.
-
 ## Legal and Licensing
 
-AdReaper is licensed under the [GPL-3.0 license](LICENSE), like the projects it derives from.
+AdReaper is licensed under the [GPL-3.0 license](LICENSE).
