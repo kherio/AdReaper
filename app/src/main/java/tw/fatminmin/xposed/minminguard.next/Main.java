@@ -227,6 +227,8 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
     {
         if (lpparam.packageName.equals(MY_PACKAGE_NAME)) {
             XposedHelpers.findAndHookMethod("tw.fatminmin.xposed.minminguard.next.blocker.Util", lpparam.classLoader, "xposedEnabled", XC_MethodReplacement.returnConstant(true));
+            /* The UI process cannot reach the framework classes, so hand it the API version. */
+            XposedHelpers.findAndHookMethod("tw.fatminmin.xposed.minminguard.next.FrameworkInfo", lpparam.classLoader, "getXposedVersion", XC_MethodReplacement.returnConstant(xposedVersionCode));
             if (xposedVersionCode >= 93)
                 XposedHelpers.findAndHookMethod("tw.fatminmin.xposed.minminguard.next.Common", lpparam.classLoader, "getPrefMode", XC_MethodReplacement.returnConstant(Context.MODE_WORLD_READABLE));
         }
