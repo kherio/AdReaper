@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import de.robv.android.xposed.XposedBridge;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,16 @@ public final class FrameworkInfo
         throw new InstantiationException("This class is not for instantiation");
     }
 
-    /** Returns the Xposed framework API version, or -1 when not running under a framework. */
+    /**
+     * Returns the Xposed framework API version, or -1 when not running under a framework.
+     *
+     * The module's own UI process cannot see the framework classes, so the value is
+     * supplied by a hook installed on this method when the module is loaded into its
+     * own app (see Main.handleLoadPackage). Without the hook it stays -1.
+     */
     public static int getXposedVersion()
     {
-        try
-        {
-            return XposedBridge.getXposedVersion();
-        }
-        catch (Throwable t)
-        {
-            return -1;
-        }
+        return -1;
     }
 
     /** Best-effort name of the Xposed framework, e.g. "LSPosed", "Vector", "EdXposed". */
@@ -77,7 +74,8 @@ public final class FrameworkInfo
         {
             found.add("Magisk");
         }
-        if (isPackageInstalled(context, "me.weishu.kernelsu") || new File("/data/adb/ksu").exists())
+        if (isPackageInstalled(context, "me.weishu.kernelsu") || isPackageInstalled(context, "com.sukisu.ultra")
+                || isPackageInstalled(context, "com.resukisu.resukisu") || new File("/data/adb/ksu").exists())
         {
             found.add("KernelSU");
         }
