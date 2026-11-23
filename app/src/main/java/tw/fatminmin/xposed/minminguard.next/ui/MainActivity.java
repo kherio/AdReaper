@@ -30,6 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -113,6 +114,20 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
+    private static int paletteStyle(String palette, boolean dark)
+    {
+        if (Common.VALUE_PALETTE_GREEN.equals(palette))
+            return dark ? R.style.AppThemeDark_Green : R.style.AppTheme_Green;
+        if (Common.VALUE_PALETTE_PURPLE.equals(palette))
+            return dark ? R.style.AppThemeDark_Purple : R.style.AppTheme_Purple;
+        if (Common.VALUE_PALETTE_ORANGE.equals(palette))
+            return dark ? R.style.AppThemeDark_Orange : R.style.AppTheme_Orange;
+        if (Common.VALUE_PALETTE_RED.equals(palette))
+            return dark ? R.style.AppThemeDark_Red : R.style.AppTheme_Red;
+        /* Blue (and Dynamic, which overlays wallpaper colors on this base). */
+        return dark ? R.style.AppThemeDark : R.style.AppTheme;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -126,7 +141,15 @@ public class MainActivity extends AppCompatActivity
         String theme = getSharedPreferences(Common.UI_PREFS, Common.getPrefMode())
                 .getString(Common.KEY_THEME, Common.VALUE_THEME_SYSTEM);
         boolean darkTheme = Common.isDarkTheme(theme);
-        setTheme(darkTheme ? R.style.AppThemeDark : R.style.AppTheme);
+        String palette = getSharedPreferences(Common.UI_PREFS, Common.getPrefMode())
+                .getString(Common.KEY_PALETTE, Common.VALUE_PALETTE_BLUE);
+        setTheme(paletteStyle(palette, darkTheme));
+        if (Common.VALUE_PALETTE_DYNAMIC.equals(palette) && DynamicColors.isDynamicColorAvailable())
+        {
+            getTheme().applyStyle(darkTheme
+                    ? com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Dark
+                    : com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light, true);
+        }
 
         /* Android 15+ (and mandatory for targetSdk 35+/36) edge-to-edge.
            The status/nav bar icon color is chosen from the SAME resolved theme
@@ -481,6 +504,22 @@ public class MainActivity extends AppCompatActivity
                 public int compare(AppDetails l, AppDetails r)
                 {
                     return l.getName().compareToIgnoreCase(r.getName());
+                }
+            });
+        }
+
+        /* Stable partition: apps with the module active first, keeping the
+           chosen order inside each group. Not applied in Auto mode, where
+           every app counts as enabled. */
+        if (uiPref.getBoolean(Common.KEY_ENABLED_FIRST, true)
+                && getCurrentFragment().getMode() != MainFragment.FragmentMode.AUTO)
+        {
+            Collections.sort(temp, new Comparator<AppDetails>()
+            {
+                @Override
+                public int compare(AppDetails l, AppDetails r)
+                {
+                    return Boolean.compare(r.isEnabled(), l.isEnabled());
                 }
             });
         }

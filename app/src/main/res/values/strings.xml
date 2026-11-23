@@ -75,6 +75,14 @@
     <string name="setting_theme_system">System default</string>
     <string name="setting_theme_light">Light</string>
     <string name="setting_theme_dark">Dark</string>
+    <string name="msg_enabled_first">Show apps with the module enabled first</string>
+    <string name="setting_color">Color</string>
+    <string name="setting_color_blue">Blue</string>
+    <string name="setting_color_green">Green</string>
+    <string name="setting_color_purple">Purple</string>
+    <string name="setting_color_orange">Orange</string>
+    <string name="setting_color_red">Red</string>
+    <string name="setting_color_dynamic">Dynamic (Material You)</string>
     <string name="setting_sort">Sort apps by</string>
     <string name="setting_sort_name">App name</string>
     <string name="setting_sort_package">Package name</string>

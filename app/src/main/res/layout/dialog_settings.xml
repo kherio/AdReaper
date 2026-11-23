@@ -25,6 +25,13 @@
                 android:text="@string/msg_show_system_apps"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cb_enabled_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/msg_enabled_first"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/cb_show_debug_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,6 +65,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/setting_theme"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_palette"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_color"/>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_sort"

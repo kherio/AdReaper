@@ -25,6 +25,14 @@ public class Common
     public final static String VALUE_THEME_SYSTEM = "system";
     public final static String VALUE_THEME_LIGHT = "light";
     public final static String VALUE_THEME_DARK = "dark";
+    public final static String KEY_PALETTE = "palette";
+    public final static String VALUE_PALETTE_BLUE = "blue";
+    public final static String VALUE_PALETTE_GREEN = "green";
+    public final static String VALUE_PALETTE_PURPLE = "purple";
+    public final static String VALUE_PALETTE_ORANGE = "orange";
+    public final static String VALUE_PALETTE_RED = "red";
+    public final static String VALUE_PALETTE_DYNAMIC = "dynamic";
+    public final static String KEY_ENABLED_FIRST = "enabled_first";
     public final static String KEY_SORT = "sort";
     public final static String VALUE_SORT_NAME = "name";
     public final static String VALUE_SORT_PACKAGE = "package";
