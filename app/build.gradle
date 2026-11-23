@@ -26,8 +26,8 @@ android {
         applicationId "tw.fatminmin.xposed.minminguard.next"
         minSdk 21
         targetSdk 36
-        versionCode 73
-        versionName "1.0"
+        versionCode 74
+        versionName "1.1"
     }
 
     buildTypes {
