@@ -52,6 +52,7 @@ public class SettingsDialogFragment extends DialogFragment
     private MaterialCheckBox mCbEnableCr;
     private MaterialCheckBox mCbInspectorMode;
     private MaterialCheckBox mCbEnabledFirst;
+    private MaterialCheckBox mCbCheckUpdates;
 
     private final ActivityResultLauncher<String> mExportLauncher =
             registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), uri ->
@@ -107,6 +108,11 @@ public class SettingsDialogFragment extends DialogFragment
         mCbEnabledFirst = v.findViewById(R.id.cb_enabled_first);
         mCbEnabledFirst.setChecked(mUiPref.getBoolean(Common.KEY_ENABLED_FIRST, true));
 
+        mCbCheckUpdates = v.findViewById(R.id.cb_check_updates);
+        mCbCheckUpdates.setChecked(mUiPref.getBoolean(Common.KEY_CHECK_UPDATES, true));
+        v.findViewById(R.id.btn_check_updates).setOnClickListener(view ->
+                tw.fatminmin.xposed.minminguard.next.update.Updater.check(requireActivity(), true));
+
         v.findViewById(R.id.btn_theme).setOnClickListener(view -> showThemeDialog());
         v.findViewById(R.id.btn_palette).setOnClickListener(view -> showPaletteDialog());
         v.findViewById(R.id.btn_sort).setOnClickListener(view -> showSortDialog());
@@ -127,6 +133,7 @@ public class SettingsDialogFragment extends DialogFragment
                 mUiPref.edit()
                         .putBoolean(Common.KEY_SHOW_SYSTEM_APPS, mCbShowSystemApps.isChecked())
                         .putBoolean(Common.KEY_ENABLED_FIRST, mCbEnabledFirst.isChecked())
+                        .putBoolean(Common.KEY_CHECK_UPDATES, mCbCheckUpdates.isChecked())
                         .putBoolean(Common.KEY_ENABLE_CRASH_REPORT, mCbEnableCr.isChecked())
                         .apply();
 

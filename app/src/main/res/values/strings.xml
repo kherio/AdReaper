@@ -76,6 +76,17 @@
     <string name="setting_theme_light">Light</string>
     <string name="setting_theme_dark">Dark</string>
     <string name="msg_enabled_first">Show apps with the module enabled first</string>
+    <string name="msg_check_updates">Check for updates when the app opens</string>
+    <string name="update_check_now">Check for updates</string>
+    <string name="update_available">Update available</string>
+    <string name="update_message">Version %1$s is available (installed: %2$s).</string>
+    <string name="update_install">Download and install</string>
+    <string name="update_later">Later</string>
+    <string name="update_downloading">Downloading update…</string>
+    <string name="update_up_to_date">AdReaper is up to date</string>
+    <string name="update_check_failed">Could not check for updates</string>
+    <string name="update_allow_install">Allow AdReaper to install apps, then tap the update again</string>
+    <string name="update_failed">Update failed: %1$s</string>
     <string name="setting_color">Color</string>
     <string name="setting_color_blue">Blue</string>
     <string name="setting_color_green">Green</string>

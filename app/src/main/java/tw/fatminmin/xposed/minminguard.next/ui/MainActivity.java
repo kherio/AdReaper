@@ -168,6 +168,12 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         prefFileManager.fixFolderPermissionsAsync();
+        if (savedInstanceState == null
+                && getSharedPreferences(Common.UI_PREFS, Common.getPrefMode())
+                        .getBoolean(Common.KEY_CHECK_UPDATES, true))
+        {
+            tw.fatminmin.xposed.minminguard.next.update.Updater.check(this, false);
+        }
 
         Context ctx = ContextCompat.createDeviceProtectedStorageContext(this);
         if (ctx == null) ctx = this;
