@@ -156,6 +156,60 @@ public final class Util
         notifyWorker.submit(task);
     }
 
+    /** Like notifyRemoveAdView but also records which ad SDK the block belongs to. */
+    public static void notifyBlocked(final String pkgName, final String sdk, final int blockNum)
+    {
+        final Context mContext = getCurrentApplication();
+        if (mContext == null || notifyWorker == null) return;
+        notifyWorker.submit(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    ContentValues values = new ContentValues();
+                    values.put(Common.KEY_PKG_NAME, pkgName);
+                    values.put(Common.KEY_BLOCK_NUM, blockNum);
+                    values.put(Common.KEY_SDK, sdk);
+                    mContext.getContentResolver().update(
+                            Uri.parse("content://tw.fatminmin.xposed.minminguard.next/"), values, null, null);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /** Reports an ad candidate found by the Inspector so it can be blocked from the module UI. */
+    public static void notifyCandidate(final String pkgName, final String kind, final String value)
+    {
+        final Context mContext = getCurrentApplication();
+        if (mContext == null || notifyWorker == null) return;
+        notifyWorker.submit(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    ContentValues values = new ContentValues();
+                    values.put(Common.KEY_PKG_NAME, pkgName);
+                    values.put(Common.KEY_CANDIDATE_KIND, kind);
+                    values.put(Common.KEY_CANDIDATE_VALUE, value);
+                    mContext.getContentResolver().update(
+                            Uri.parse("content://tw.fatminmin.xposed.minminguard.next/"), values, null, null);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public static void hookAllMethods(String className, ClassLoader classLoader, String method, XC_MethodHook callBack)
     {
         Class<?> clazz = XposedHelpers.findClass(className, classLoader);

@@ -9,7 +9,7 @@ public class ViewBlocking
 {
     public static void removeAdView(String packageName, View view)
     {
-        Util.notifyRemoveAdView(view.getContext(), packageName, 1);
+        Util.notifyBlocked(packageName, SdkNames.label(view.getClass().getName()), 1);
         removeAdView(packageName, view, true, 51);
     }
 

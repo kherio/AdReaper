@@ -34,6 +34,38 @@ public class StatsDialogFragment extends DialogFragment
         return new StatsDialogFragment();
     }
 
+    /** Bar chart of the last 7 days and the per-SDK breakdown (last 30 days). */
+    private void bindDailyStats(View v)
+    {
+        tw.fatminmin.xposed.minminguard.next.stats.EventStore store =
+                tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(requireContext());
+
+        java.util.Map<Long, Integer> daily = store.dailyTotals(7);
+        int[] values = new int[daily.size()];
+        String[] labels = new String[daily.size()];
+        java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat("EEE", java.util.Locale.getDefault());
+        fmt.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+        int i = 0;
+        for (java.util.Map.Entry<Long, Integer> e : daily.entrySet())
+        {
+            values[i] = e.getValue();
+            labels[i] = fmt.format(new java.util.Date(e.getKey() * 86400000L));
+            i++;
+        }
+        ((tw.fatminmin.xposed.minminguard.next.ui.BarChartView) v.findViewById(R.id.stats_chart))
+                .setData(values, labels);
+
+        StringBuilder sb = new StringBuilder();
+        int shown = 0;
+        for (java.util.Map.Entry<String, Integer> e : store.sdkTotals(30).entrySet())
+        {
+            sb.append(e.getKey()).append(" - ").append(e.getValue()).append("\n");
+            if (++shown >= 10) break;
+        }
+        ((TextView) v.findViewById(R.id.stats_sdks)).setText(
+                shown == 0 ? getString(R.string.stats_empty) : sb.toString().trim());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -43,6 +75,8 @@ public class StatsDialogFragment extends DialogFragment
         TextView txtTotal = v.findViewById(R.id.stats_total);
         TextView txtApps = v.findViewById(R.id.stats_apps);
         TextView txtNetworks = v.findViewById(R.id.stats_networks);
+
+        bindDailyStats(v);
 
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(requireContext(), "mmg", null);
         SQLiteDatabase db = helper.getWritableDatabase();

@@ -74,6 +74,52 @@ public class AppDetailDialogFragment extends DialogFragment
         mPref = ctx.getSharedPreferences(Common.MOD_PREFS, Common.getPrefMode());
     }
 
+    /** Ads found by the Inspector in this app, selectable to become blocking rules. */
+    private void bindCandidates(View v)
+    {
+        final android.widget.LinearLayout container = v.findViewById(R.id.candidates_container);
+        final View hint = v.findViewById(R.id.txt_candidates_hint);
+        final View btn = v.findViewById(R.id.btn_block_candidates);
+        final tw.fatminmin.xposed.minminguard.next.stats.EventStore store =
+                tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(requireContext());
+
+        final java.util.List<String[]> items = store.candidates(pkgName);
+        final java.util.List<android.widget.CheckBox> boxes = new java.util.ArrayList<>();
+        if (items.isEmpty())
+        {
+            return;
+        }
+        hint.setVisibility(View.GONE);
+        btn.setVisibility(View.VISIBLE);
+        for (String[] item : items)
+        {
+            android.widget.CheckBox cb = new android.widget.CheckBox(requireContext());
+            cb.setText(item[0] + ": " + item[1]);
+            cb.setTextSize(13);
+            cb.setChecked(true);
+            container.addView(cb);
+            boxes.add(cb);
+        }
+        btn.setOnClickListener(view ->
+        {
+            java.util.List<String[]> chosen = new java.util.ArrayList<>();
+            for (int i = 0; i < boxes.size(); i++)
+            {
+                if (boxes.get(i).isChecked()) chosen.add(items.get(i));
+            }
+            if (chosen.isEmpty()) return;
+            boolean ok = tw.fatminmin.xposed.minminguard.next.ui.UserRules.add(mPref, pkgName, chosen);
+            if (ok)
+            {
+                for (String[] c : chosen) store.removeCandidate(pkgName, c[0], c[1]);
+            }
+            android.widget.Toast.makeText(requireContext(),
+                    ok ? R.string.candidates_added : R.string.candidates_failed,
+                    android.widget.Toast.LENGTH_LONG).show();
+            if (ok) dismiss();
+        });
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -114,6 +160,8 @@ public class AppDetailDialogFragment extends DialogFragment
         {
             e.printStackTrace();
         }
+
+        bindCandidates(v);
 
         swtUrlFilter.setChecked(mPref.getBoolean(pkgName + "_url", false));
         swtUrlFilter.setOnClickListener(new View.OnClickListener()

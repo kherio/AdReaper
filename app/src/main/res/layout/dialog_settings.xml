@@ -81,6 +81,13 @@
                 android:text="@string/update_check_now"/>
 
         <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update_rules"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rules_update_now"/>
+
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_palette"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="match_parent"

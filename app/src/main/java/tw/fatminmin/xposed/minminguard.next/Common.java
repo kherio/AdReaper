@@ -61,6 +61,20 @@ public class Common
     public final static String KEY_PKG_NAME = "PKG_NAME";
     public final static String KEY_NETWORK = "AD_NETWORKS";
     public final static String KEY_BLOCK_NUM = "BLOCK_NUM";
+    public final static String KEY_SDK = "SDK";
+    public final static String KEY_CANDIDATE_KIND = "CAND_KIND";
+    public final static String KEY_CANDIDATE_VALUE = "CAND_VALUE";
+
+    // Rules downloaded from the repository (JSON, same schema as the bundled rules)
+    public final static String KEY_REMOTE_APP_RULES = "remote_app_rules";
+    public final static String KEY_REMOTE_RULES_TIME = "remote_rules_time";
+
+    // List filter in the app list (UI pref)
+    public final static String KEY_LIST_FILTER = "list_filter";
+    public final static String VALUE_FILTER_ALL = "all";
+    public final static String VALUE_FILTER_ENABLED = "enabled";
+    public final static String VALUE_FILTER_WITH_ADS = "with_ads";
+    public final static String VALUE_FILTER_UNCONFIGURED = "unconfigured";
 
     private Common() throws InstantiationException
     {

@@ -112,6 +112,8 @@ public class SettingsDialogFragment extends DialogFragment
         mCbCheckUpdates.setChecked(mUiPref.getBoolean(Common.KEY_CHECK_UPDATES, true));
         v.findViewById(R.id.btn_check_updates).setOnClickListener(view ->
                 tw.fatminmin.xposed.minminguard.next.update.Updater.check(requireActivity(), true));
+        v.findViewById(R.id.btn_update_rules).setOnClickListener(view ->
+                tw.fatminmin.xposed.minminguard.next.update.RulesUpdater.update(requireActivity(), true));
 
         v.findViewById(R.id.btn_theme).setOnClickListener(view -> showThemeDialog());
         v.findViewById(R.id.btn_palette).setOnClickListener(view -> showPaletteDialog());
