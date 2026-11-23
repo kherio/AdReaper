@@ -51,6 +51,7 @@ public class SettingsDialogFragment extends DialogFragment
     private MaterialCheckBox mCbShowLauncherIcon;
     private MaterialCheckBox mCbEnableCr;
     private MaterialCheckBox mCbInspectorMode;
+    private MaterialCheckBox mCbEnabledFirst;
 
     private final ActivityResultLauncher<String> mExportLauncher =
             registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), uri ->
@@ -103,7 +104,11 @@ public class SettingsDialogFragment extends DialogFragment
         mCbEnableCr = v.findViewById(R.id.cb_enable_cr);
         mCbEnableCr.setChecked(mUiPref.getBoolean(Common.KEY_ENABLE_CRASH_REPORT, false));
 
+        mCbEnabledFirst = v.findViewById(R.id.cb_enabled_first);
+        mCbEnabledFirst.setChecked(mUiPref.getBoolean(Common.KEY_ENABLED_FIRST, true));
+
         v.findViewById(R.id.btn_theme).setOnClickListener(view -> showThemeDialog());
+        v.findViewById(R.id.btn_palette).setOnClickListener(view -> showPaletteDialog());
         v.findViewById(R.id.btn_sort).setOnClickListener(view -> showSortDialog());
         v.findViewById(R.id.btn_user_prefixes).setOnClickListener(view -> showUserPrefixesDialog());
         v.findViewById(R.id.btn_user_rules).setOnClickListener(view -> showUserRulesDialog());
@@ -121,6 +126,7 @@ public class SettingsDialogFragment extends DialogFragment
 
                 mUiPref.edit()
                         .putBoolean(Common.KEY_SHOW_SYSTEM_APPS, mCbShowSystemApps.isChecked())
+                        .putBoolean(Common.KEY_ENABLED_FIRST, mCbEnabledFirst.isChecked())
                         .putBoolean(Common.KEY_ENABLE_CRASH_REPORT, mCbEnableCr.isChecked())
                         .apply();
 
@@ -198,6 +204,33 @@ public class SettingsDialogFragment extends DialogFragment
            recreated activity is always themed correctly on the first try. */
         mUiPref.edit().putString(Common.KEY_THEME, value).apply();
         requireActivity().getWindow().getDecorView().post(() -> requireActivity().recreate());
+    }
+
+    private void showPaletteDialog()
+    {
+        final java.util.List<String> values = new java.util.ArrayList<>();
+        final java.util.List<String> labels = new java.util.ArrayList<>();
+        values.add(Common.VALUE_PALETTE_BLUE); labels.add(getString(R.string.setting_color_blue));
+        values.add(Common.VALUE_PALETTE_GREEN); labels.add(getString(R.string.setting_color_green));
+        values.add(Common.VALUE_PALETTE_PURPLE); labels.add(getString(R.string.setting_color_purple));
+        values.add(Common.VALUE_PALETTE_ORANGE); labels.add(getString(R.string.setting_color_orange));
+        values.add(Common.VALUE_PALETTE_RED); labels.add(getString(R.string.setting_color_red));
+        if (com.google.android.material.color.DynamicColors.isDynamicColorAvailable())
+        {
+            values.add(Common.VALUE_PALETTE_DYNAMIC);
+            labels.add(getString(R.string.setting_color_dynamic));
+        }
+        int checked = Math.max(0, values.indexOf(
+                mUiPref.getString(Common.KEY_PALETTE, Common.VALUE_PALETTE_BLUE)));
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_color)
+                .setSingleChoiceItems(labels.toArray(new String[0]), checked, (dialog, which) ->
+                {
+                    mUiPref.edit().putString(Common.KEY_PALETTE, values.get(which)).apply();
+                    dialog.dismiss();
+                    requireActivity().getWindow().getDecorView().post(() -> requireActivity().recreate());
+                })
+                .show();
     }
 
     private void showSortDialog()
