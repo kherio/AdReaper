@@ -225,3 +225,8 @@ framework at runtime.
 ## Legal and Licensing
 
 AdReaper is licensed under the [GPL-3.0 license](LICENSE).
+
+The list of ad SDK package prefixes in `assets/rules/app_rules.json` was generated with
+`tools/import_sdk_rules.py` from the data of
+[blocker-general-rules](https://github.com/lihenggui/blocker-general-rules) (Apache-2.0). Only
+package names are used; the script keeps just the SDKs classified as advertising.
