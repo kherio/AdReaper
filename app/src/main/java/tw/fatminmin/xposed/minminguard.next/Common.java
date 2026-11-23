@@ -33,6 +33,7 @@ public class Common
     public final static String VALUE_PALETTE_RED = "red";
     public final static String VALUE_PALETTE_DYNAMIC = "dynamic";
     public final static String KEY_ENABLED_FIRST = "enabled_first";
+    public final static String KEY_CHECK_UPDATES = "check_updates";
     public final static String KEY_SORT = "sort";
     public final static String VALUE_SORT_NAME = "name";
     public final static String VALUE_SORT_PACKAGE = "package";
