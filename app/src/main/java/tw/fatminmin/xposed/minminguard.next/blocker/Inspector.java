@@ -48,7 +48,7 @@ public final class Inspector
         throw new InstantiationException("This class is not for instantiation");
     }
 
-    private static boolean isEnabled()
+    public static boolean isEnabled()
     {
         try
         {
@@ -131,6 +131,7 @@ public final class Inspector
             if (activitySuspect)
             {
                 XposedBridge.log(TAG + "  suspect activity: " + activityName);
+                Util.notifyCandidate(pkg, tw.fatminmin.xposed.minminguard.next.stats.EventStore.KIND_ACTIVITY, activityName);
             }
 
             View root = activity.getWindow().getDecorView();
@@ -196,6 +197,15 @@ public final class Inspector
             XposedBridge.log(String.format(Locale.ROOT, "%s  suspect view: class=%s id=%s size=%dx%ddp visible=%b",
                     TAG, className, entry, Math.round(view.getWidth() / density),
                     Math.round(view.getHeight() / density), view.getVisibility() == View.VISIBLE));
+
+            if (classSuspect)
+            {
+                Util.notifyCandidate(pkg, tw.fatminmin.xposed.minminguard.next.stats.EventStore.KIND_CLASS, className);
+            }
+            if (idSuspect)
+            {
+                Util.notifyCandidate(pkg, tw.fatminmin.xposed.minminguard.next.stats.EventStore.KIND_ID, entry);
+            }
 
             if (classSuspect && classes.indexOf("\"" + className + "\"") < 0)
             {

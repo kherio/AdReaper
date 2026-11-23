@@ -111,6 +111,39 @@
 
         </LinearLayout>
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/candidates_title"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:id="@+id/txt_candidates_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/candidates_hint"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="13sp"/>
+
+        <LinearLayout
+                android:id="@+id/candidates_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_block_candidates"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/candidates_block"
+                android:visibility="gone"/>
+
         <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_url_filter"
                 android:layout_width="match_parent"

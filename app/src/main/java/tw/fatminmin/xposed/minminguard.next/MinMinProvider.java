@@ -67,6 +67,22 @@ public class MinMinProvider extends ContentProvider
     {
         String pkgName = values.getAsString(Common.KEY_PKG_NAME);
 
+        String candKind = values.getAsString(Common.KEY_CANDIDATE_KIND);
+        if (candKind != null)
+        {
+            tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(getContext())
+                    .addCandidate(pkgName, candKind, values.getAsString(Common.KEY_CANDIDATE_VALUE));
+            return 1;
+        }
+
+        Integer events = values.getAsInteger(Common.KEY_BLOCK_NUM);
+        if (events != null && events > 0)
+        {
+            String sdk = values.getAsString(Common.KEY_SDK);
+            tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(getContext())
+                    .addBlocked(pkgName, sdk != null ? sdk : "Other", events);
+        }
+
         String network = values.getAsString(Common.KEY_NETWORK);
         Integer blockNum = values.getAsInteger(Common.KEY_BLOCK_NUM);
 

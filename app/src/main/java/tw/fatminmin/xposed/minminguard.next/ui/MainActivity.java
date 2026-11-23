@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity
                         .getBoolean(Common.KEY_CHECK_UPDATES, true))
         {
             tw.fatminmin.xposed.minminguard.next.update.Updater.check(this, false);
+            tw.fatminmin.xposed.minminguard.next.update.RulesUpdater.update(this, false);
         }
 
         Context ctx = ContextCompat.createDeviceProtectedStorageContext(this);
@@ -366,7 +367,54 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        if (item.getItemId() == R.id.action_filter)
+        {
+            showFilterDialog();
+            return true;
+        }
         return mToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    private void showFilterDialog()
+    {
+        final String[] values = {Common.VALUE_FILTER_ALL, Common.VALUE_FILTER_ENABLED,
+                Common.VALUE_FILTER_WITH_ADS, Common.VALUE_FILTER_UNCONFIGURED};
+        String[] labels = {getString(R.string.filter_all), getString(R.string.filter_enabled),
+                getString(R.string.filter_with_ads), getString(R.string.filter_unconfigured)};
+        String current = uiPref.getString(Common.KEY_LIST_FILTER, Common.VALUE_FILTER_ALL);
+        int checked = 0;
+        for (int i = 0; i < values.length; i++) if (values[i].equals(current)) checked = i;
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.action_filter)
+                .setSingleChoiceItems(labels, checked, (dialog, which) ->
+                {
+                    uiPref.edit().putString(Common.KEY_LIST_FILTER, values[which]).apply();
+                    dialog.dismiss();
+                    refresh(false);
+                })
+                .show();
+    }
+
+    /** Block counts and detected ad networks per package, from the provider database. */
+    private java.util.Map<String, tw.fatminmin.xposed.minminguard.next.orm.AppData> loadAppData()
+    {
+        java.util.Map<String, tw.fatminmin.xposed.minminguard.next.orm.AppData> map = new java.util.HashMap<>();
+        try
+        {
+            tw.fatminmin.xposed.minminguard.next.orm.DaoMaster.DevOpenHelper helper =
+                    new tw.fatminmin.xposed.minminguard.next.orm.DaoMaster.DevOpenHelper(this, "mmg", null);
+            tw.fatminmin.xposed.minminguard.next.orm.DaoSession session =
+                    new tw.fatminmin.xposed.minminguard.next.orm.DaoMaster(helper.getWritableDatabase()).newSession();
+            for (tw.fatminmin.xposed.minminguard.next.orm.AppData data : session.getAppDataDao().loadAll())
+            {
+                map.put(data.getPkgName(), data);
+            }
+            helper.close();
+        }
+        catch (Exception ignored)
+        {
+        }
+        return map;
     }
 
     private MainFragment getCurrentFragment()
@@ -528,6 +576,37 @@ public class MainActivity extends AppCompatActivity
                     return Boolean.compare(r.isEnabled(), l.isEnabled());
                 }
             });
+        }
+
+        String filter = uiPref.getString(Common.KEY_LIST_FILTER, Common.VALUE_FILTER_ALL);
+        if (!Common.VALUE_FILTER_ALL.equals(filter))
+        {
+            java.util.Map<String, tw.fatminmin.xposed.minminguard.next.orm.AppData> data = loadAppData();
+            MainFragment.FragmentMode mode = getCurrentFragment().getMode();
+            ArrayList<AppDetails> kept = new ArrayList<>();
+            for (AppDetails app : temp)
+            {
+                boolean keep;
+                if (Common.VALUE_FILTER_ENABLED.equals(filter))
+                {
+                    keep = app.isEnabled();
+                }
+                else if (Common.VALUE_FILTER_WITH_ADS.equals(filter))
+                {
+                    tw.fatminmin.xposed.minminguard.next.orm.AppData d = data.get(app.getPackageName());
+                    keep = d != null && ((d.getBlockNum() != null && d.getBlockNum() > 0)
+                            || (d.getAdNetworks() != null && !d.getAdNetworks().trim().isEmpty()));
+                }
+                else
+                {
+                    /* never configured: no entry for this app in the active mode */
+                    String key = mode == MainFragment.FragmentMode.WHITELIST
+                            ? Common.getWhiteListKey(app.getPackageName()) : app.getPackageName();
+                    keep = mode != MainFragment.FragmentMode.AUTO && !modPref.contains(key);
+                }
+                if (keep) kept.add(app);
+            }
+            temp = kept;
         }
 
         masterAppList = temp;

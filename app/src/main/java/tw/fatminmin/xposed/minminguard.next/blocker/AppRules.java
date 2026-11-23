@@ -151,7 +151,8 @@ public final class AppRules
 
             RuleSet built = new RuleSet();
             mergeRoot(built, bundledRoot, pkg);
-            mergeRoot(built, readUserRules(), pkg);
+            mergeRoot(built, readPrefJson(Common.KEY_REMOTE_APP_RULES), pkg);
+            mergeRoot(built, readPrefJson(Common.KEY_USER_APP_RULES), pkg);
 
             cachedSet = built;
             cachedPkg = pkg;
@@ -159,7 +160,7 @@ public final class AppRules
         }
     }
 
-    private static JSONObject readUserRules()
+    private static JSONObject readPrefJson(String key)
     {
         try
         {
@@ -169,7 +170,7 @@ public final class AppRules
                 return null;
             }
 
-            String json = pref.getString(Common.KEY_USER_APP_RULES, "");
+            String json = pref.getString(key, "");
             if (json == null || json.trim().isEmpty())
             {
                 return null;
@@ -178,7 +179,7 @@ public final class AppRules
         }
         catch (Throwable e)
         {
-            Util.log(Main.class.getPackage().getName(), "Invalid user app rules: " + e);
+            Util.log(Main.class.getPackage().getName(), "Invalid app rules (" + key + "): " + e);
             return null;
         }
     }
@@ -310,6 +311,12 @@ public final class AppRules
     {
         RuleSet set = forPackage(pkg);
 
+        /* Rule health, for verifying the rule list on a device (Inspector mode only):
+           which SDK classes the app has, and which rules name a method that does not exist. */
+        final boolean report = Inspector.isEnabled();
+        int hooked = 0, noClass = 0;
+        StringBuilder stale = new StringBuilder();
+
         for (final MethodRule rule : set.methods)
         {
             try
@@ -317,6 +324,7 @@ public final class AppRules
                 Class<?> clazz = XposedHelpers.findClassIfExists(rule.clazz, lpparam.classLoader);
                 if (clazz == null)
                 {
+                    noClass++;
                     continue;
                 }
 
@@ -329,7 +337,7 @@ public final class AppRules
                         Class<?> returnType = member instanceof Method ? ((Method) member).getReturnType() : void.class;
 
                         Util.log(pkg, "AppRules: blocked " + rule.clazz + "#" + rule.method);
-                        Util.notifyRemoveAdView(null, pkg, 1);
+                        Util.notifyBlocked(pkg, SdkNames.label(rule.clazz), 1);
 
                         param.setResult(defaultResult(returnType, rule));
                     }
@@ -338,6 +346,11 @@ public final class AppRules
                 if (hooks.isEmpty())
                 {
                     Util.log(pkg, "AppRules: no method " + rule.method + " in " + rule.clazz);
+                    stale.append(" ").append(rule.clazz).append("#").append(rule.method);
+                }
+                else
+                {
+                    hooked++;
                 }
             }
             catch (Throwable e)
@@ -345,6 +358,18 @@ public final class AppRules
                 Util.log(pkg, "AppRules: " + rule.clazz + "#" + rule.method + " -> " + e);
             }
         }
+
+        if (report)
+        {
+            reportRuleHealth(pkg, set.methods.size(), hooked, noClass, stale.toString());
+        }
+    }
+
+    private static void reportRuleHealth(String pkg, int total, int hooked, int noClass, String stale)
+    {
+        XposedBridge.log("[AdReaper/Rules] " + pkg + ": " + total + " method rules, " + hooked
+                + " hooked, " + noClass + " classes not present"
+                + (stale.isEmpty() ? "" : ", class found but method missing (rule needs fixing):" + stale));
     }
 
     private static Object defaultResult(Class<?> returnType, MethodRule rule)
