@@ -189,6 +189,34 @@
         "com.smaato.sdk.interstitial.Interstitial#loadAd",
         "com.smaato.sdk.rewarded.RewardedInterstitial#loadAd",
         "com.smaato.sdk.banner.widget.BannerView#loadAd"
+      ],
+      "blocked_hosts": [
+        "doubleclick.net",
+        "googlesyndication.com",
+        "googleadservices.com",
+        "adservice.google.com",
+        "applovin.com",
+        "applvn.com",
+        "unityads.unity3d.com",
+        "supersonicads.com",
+        "ssacdn.com",
+        "vungle.com",
+        "chartboost.com",
+        "inmobi.com",
+        "adcolony.com",
+        "mopub.com",
+        "smaato.net",
+        "mintegral.com",
+        "pangle.io",
+        "startapp.com",
+        "tapjoy.com",
+        "adnxs.com",
+        "pubmatic.com",
+        "criteo.com",
+        "criteo.net",
+        "taboola.com",
+        "outbrain.com",
+        "amazon-adsystem.com"
       ]
     }
   }

@@ -52,6 +52,8 @@ public class SettingsDialogFragment extends DialogFragment
     private MaterialCheckBox mCbEnableCr;
     private MaterialCheckBox mCbInspectorMode;
     private MaterialCheckBox mCbAggressive;
+    private MaterialCheckBox mCbNetwork;
+    private MaterialCheckBox mCbFeed;
     private MaterialCheckBox mCbEnabledFirst;
     private MaterialCheckBox mCbCheckUpdates;
 
@@ -100,6 +102,10 @@ public class SettingsDialogFragment extends DialogFragment
         mCbShowLauncherIcon = v.findViewById(R.id.cb_show_launcher_icon);
         mCbShowLauncherIcon.setChecked(mUiPref.getBoolean(Common.KEY_SHOW_LAUNCHER_ICON, true));
 
+        mCbNetwork = v.findViewById(R.id.cb_network_blocking);
+        mCbNetwork.setChecked(mModPref.getBoolean(Common.KEY_NETWORK_BLOCKING, false));
+        mCbFeed = v.findViewById(R.id.cb_feed_ads);
+        mCbFeed.setChecked(mModPref.getBoolean(Common.KEY_FEED_ADS, true));
         mCbAggressive = v.findViewById(R.id.cb_aggressive_mode);
         mCbAggressive.setChecked(mModPref.getBoolean(Common.KEY_AGGRESSIVE_MODE, false));
         mCbInspectorMode = v.findViewById(R.id.cb_inspector_mode);
@@ -145,6 +151,8 @@ public class SettingsDialogFragment extends DialogFragment
                 mModPref.edit()
                         .putBoolean(Common.KEY_INSPECTOR_MODE, mCbInspectorMode.isChecked())
                         .putBoolean(Common.KEY_AGGRESSIVE_MODE, mCbAggressive.isChecked())
+                        .putBoolean(Common.KEY_NETWORK_BLOCKING, mCbNetwork.isChecked())
+                        .putBoolean(Common.KEY_FEED_ADS, mCbFeed.isChecked())
                         .apply();
 
                 setLauncherIconEnabled(mCbShowLauncherIcon.isChecked());

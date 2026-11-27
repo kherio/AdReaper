@@ -28,7 +28,9 @@ import tw.fatminmin.xposed.minminguard.next.blocker.AppRules;
 import tw.fatminmin.xposed.minminguard.next.blocker.Blocker;
 import tw.fatminmin.xposed.minminguard.next.blocker.Heuristics;
 import tw.fatminmin.xposed.minminguard.next.blocker.Inspector;
+import tw.fatminmin.xposed.minminguard.next.blocker.FeedAdBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.NameBlocking;
+import tw.fatminmin.xposed.minminguard.next.blocker.NetworkBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.UrlFiltering;
 import tw.fatminmin.xposed.minminguard.next.blocker.Util;
 import tw.fatminmin.xposed.minminguard.next.blocker.adnetwork.Ad2iction;
@@ -299,6 +301,18 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
                     // Full-screen interstitial / rewarded activity killer
                     ActivityBlocking.blockInterstitialActivities(packageName, lpparam);
+
+                    // Native ads inside RecyclerView feeds (rows labelled "Ad", "Sponsored"...)
+                    if (pref.getBoolean(Common.KEY_FEED_ADS, true))
+                    {
+                        FeedAdBlocking.install(packageName, lpparam);
+                    }
+
+                    // Connection level blocking of ad domains (opt-in)
+                    if (pref.getBoolean(Common.KEY_NETWORK_BLOCKING, false))
+                    {
+                        NetworkBlocking.install(packageName, lpparam);
+                    }
 
                     // url filtering
                     if (Heuristics.isAggressive() || pref.getBoolean(packageName + "_url", false))

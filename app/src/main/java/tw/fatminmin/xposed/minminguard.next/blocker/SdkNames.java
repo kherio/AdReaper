@@ -31,6 +31,32 @@ public final class SdkNames
     {
     }
 
+    private static final String[][] HOSTS = {
+            {"doubleclick", "AdMob"}, {"googlesyndication", "AdMob"}, {"googleadservices", "AdMob"},
+            {"admob", "AdMob"}, {"applovin", "AppLovin"}, {"applvn", "AppLovin"},
+            {"unityads", "Unity Ads"}, {"supersonic", "LevelPlay"}, {"ssacdn", "LevelPlay"},
+            {"ironsrc", "LevelPlay"}, {"vungle", "Vungle"}, {"liftoff", "Vungle"},
+            {"chartboost", "Chartboost"}, {"inmobi", "InMobi"}, {"adcolony", "AdColony"},
+            {"mopub", "MoPub"}, {"smaato", "Smaato"}, {"mintegral", "Mintegral"},
+            {"pangle", "Pangle"}, {"startapp", "StartApp"}, {"fyber", "Fyber"},
+            {"tapjoy", "Tapjoy"}, {"adnxs", "AppNexus"}, {"pubmatic", "PubMatic"},
+            {"criteo", "Criteo"}, {"taboola", "Taboola"}, {"outbrain", "Outbrain"},
+            {"amazon-adsystem", "Amazon Ads"}
+    };
+
+    /** Readable ad network name for a blocked host; "Network" when unknown. */
+    public static String labelForHost(String host)
+    {
+        if (host != null)
+        {
+            for (String[] p : HOSTS)
+            {
+                if (host.contains(p[0])) return p[1];
+            }
+        }
+        return "Network";
+    }
+
     public static String label(String className)
     {
         if (className != null)
