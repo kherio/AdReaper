@@ -110,6 +110,13 @@ public final class NameBlocking
             return true;
         }
 
+        // aggressive mode: recognise ads by the words in class / id names
+        if (Heuristics.matchesView(view))
+        {
+            Util.notifyAdNetwork(context, pkgName, "Heuristic");
+            return true;
+        }
+
         Class clazz = view.getClass();
         // find also parent classes
         int level = 1;
@@ -149,6 +156,7 @@ public final class NameBlocking
 
     public static void nameBasedBlocking(final String pkgName, final XC_LoadPackage.LoadPackageParam lpparam)
     {
+        Heuristics.configure();
         Util.hookAllMethods("android.view.ViewGroup", lpparam.classLoader, "addView", new XC_MethodHook()
         {
 

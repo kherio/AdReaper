@@ -51,6 +51,7 @@ public class SettingsDialogFragment extends DialogFragment
     private MaterialCheckBox mCbShowLauncherIcon;
     private MaterialCheckBox mCbEnableCr;
     private MaterialCheckBox mCbInspectorMode;
+    private MaterialCheckBox mCbAggressive;
     private MaterialCheckBox mCbEnabledFirst;
     private MaterialCheckBox mCbCheckUpdates;
 
@@ -99,6 +100,8 @@ public class SettingsDialogFragment extends DialogFragment
         mCbShowLauncherIcon = v.findViewById(R.id.cb_show_launcher_icon);
         mCbShowLauncherIcon.setChecked(mUiPref.getBoolean(Common.KEY_SHOW_LAUNCHER_ICON, true));
 
+        mCbAggressive = v.findViewById(R.id.cb_aggressive_mode);
+        mCbAggressive.setChecked(mModPref.getBoolean(Common.KEY_AGGRESSIVE_MODE, false));
         mCbInspectorMode = v.findViewById(R.id.cb_inspector_mode);
         mCbInspectorMode.setChecked(mModPref.getBoolean(Common.KEY_INSPECTOR_MODE, false));
 
@@ -141,6 +144,7 @@ public class SettingsDialogFragment extends DialogFragment
 
                 mModPref.edit()
                         .putBoolean(Common.KEY_INSPECTOR_MODE, mCbInspectorMode.isChecked())
+                        .putBoolean(Common.KEY_AGGRESSIVE_MODE, mCbAggressive.isChecked())
                         .apply();
 
                 setLauncherIconEnabled(mCbShowLauncherIcon.isChecked());

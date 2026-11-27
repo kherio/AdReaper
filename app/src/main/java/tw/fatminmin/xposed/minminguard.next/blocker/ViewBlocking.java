@@ -10,12 +10,18 @@ public class ViewBlocking
     public static void removeAdView(String packageName, View view)
     {
         Util.notifyBlocked(packageName, SdkNames.label(view.getClass().getName()), 1);
-        removeAdView(packageName, view, true, 51);
+        removeAdView(packageName, view, true, Heuristics.isAggressive() ? 80 : 51);
     }
 
     private static void removeAdView(final String packageName, final View view, final boolean first, final float heightLimit)
     {
         float adHeight = convertPixelsToDp(view.getContext(), view.getHeight());
+
+        /* Aggressive mode: the ad view itself is removed from the layout, not only squashed. */
+        if (first && Heuristics.isAggressive())
+        {
+            view.setVisibility(View.GONE);
+        }
 
         if (first || (adHeight > 0 && adHeight <= heightLimit))
         {
