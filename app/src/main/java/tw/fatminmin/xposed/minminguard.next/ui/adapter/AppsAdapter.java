@@ -239,6 +239,22 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder>
             holder.txtBlockNum.setText("");
         }
 
+        String pkg = currentAppDetails.getPackageName();
+        if (mPref.getBoolean(pkg + "_url", false))
+        {
+            holder.txtUrlFilter.setText(R.string.badge_url_filter);
+            holder.txtUrlFilter.setVisibility(View.VISIBLE);
+        }
+        else if (mPref.getBoolean(Common.KEY_AGGRESSIVE_MODE, false) && currentAppDetails.isEnabled())
+        {
+            holder.txtUrlFilter.setText(R.string.badge_url_filter_aggressive);
+            holder.txtUrlFilter.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.txtUrlFilter.setVisibility(View.GONE);
+        }
+
         boolean selected = mSelected.contains(currentAppDetails.getPackageName());
         holder.card.setActivated(selected);
         holder.card.setSelected(selected);
@@ -354,6 +370,7 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder>
         ImageView imgAppIcon;
         TextView txtAppName;
         TextView txtBlockNum;
+        TextView txtUrlFilter;
         SwitchCompat switchEnable;
 
         ViewHolder(View v)
@@ -364,6 +381,7 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder>
             imgAppIcon = v.findViewById(R.id.img_app_icon);
             txtAppName = v.findViewById(R.id.txt_app_name);
             txtBlockNum = v.findViewById(R.id.txt_block_num);
+            txtUrlFilter = v.findViewById(R.id.txt_url_filter);
             switchEnable = v.findViewById(R.id.switch_enable);
         }
     }

@@ -74,6 +74,17 @@ public class AppDetailDialogFragment extends DialogFragment
         mPref = ctx.getSharedPreferences(Common.MOD_PREFS, Common.getPrefMode());
     }
 
+    @Override
+    public void onDismiss(@androidx.annotation.NonNull android.content.DialogInterface dialog)
+    {
+        super.onDismiss(dialog);
+        /* the URL filter switch changes what the list row shows */
+        if (getActivity() instanceof tw.fatminmin.xposed.minminguard.next.ui.MainActivity)
+        {
+            ((tw.fatminmin.xposed.minminguard.next.ui.MainActivity) getActivity()).refresh(false);
+        }
+    }
+
     /** Ads found by the Inspector in this app, selectable to become blocking rules. */
     private void bindCandidates(View v)
     {
