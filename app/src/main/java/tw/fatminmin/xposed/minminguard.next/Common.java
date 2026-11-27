@@ -62,6 +62,7 @@ public class Common
     public final static String KEY_NETWORK = "AD_NETWORKS";
     public final static String KEY_BLOCK_NUM = "BLOCK_NUM";
     public final static String KEY_SDK = "SDK";
+    public final static String KEY_AGGRESSIVE_MODE = "aggressive_mode";
     public final static String KEY_CANDIDATE_KIND = "CAND_KIND";
     public final static String KEY_CANDIDATE_VALUE = "CAND_VALUE";
 

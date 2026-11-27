@@ -91,6 +91,12 @@ public final class ActivityBlocking
             return true;
         }
 
+        /* Aggressive mode: library activities whose name says "ad" / "interstitial" / ... */
+        if (Heuristics.matchesActivity(packageName, clazz))
+        {
+            return true;
+        }
+
         for (String prefix : KNOWN_ACTIVITY_PREFIXES)
         {
             if (clazz.startsWith(prefix))

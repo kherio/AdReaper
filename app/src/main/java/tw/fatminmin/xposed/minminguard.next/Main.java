@@ -26,6 +26,7 @@ import tw.fatminmin.xposed.minminguard.next.blocker.ActivityBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.ApiBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.AppRules;
 import tw.fatminmin.xposed.minminguard.next.blocker.Blocker;
+import tw.fatminmin.xposed.minminguard.next.blocker.Heuristics;
 import tw.fatminmin.xposed.minminguard.next.blocker.Inspector;
 import tw.fatminmin.xposed.minminguard.next.blocker.NameBlocking;
 import tw.fatminmin.xposed.minminguard.next.blocker.UrlFiltering;
@@ -300,7 +301,7 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
                     ActivityBlocking.blockInterstitialActivities(packageName, lpparam);
 
                     // url filtering
-                    if (pref.getBoolean(packageName + "_url", false))
+                    if (Heuristics.isAggressive() || pref.getBoolean(packageName + "_url", false))
                     {
                         UrlFiltering.removeWebViewAds(packageName, lpparam);
                     }
