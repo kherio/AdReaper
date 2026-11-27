@@ -50,6 +50,13 @@ public class BarChartView extends View
         int max = 1;
         for (int v : values) max = Math.max(max, v);
 
+        float slotW = getWidth() / (float) n;
+        float base = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 11, getResources().getDisplayMetrics());
+        float widest = 1;
+        text.setTextSize(base);
+        for (String l : labels) if (l != null) widest = Math.max(widest, text.measureText(l));
+        if (widest > slotW * 0.95f) text.setTextSize(Math.max(base * slotW * 0.95f / widest, base * 0.6f));
+
         float labelH = text.getTextSize() + 6;
         float top = text.getTextSize() + 6; // room for the value above the tallest bar
         float chartH = getHeight() - labelH - top;
