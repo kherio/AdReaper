@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showIntro()
     {
-        Intent intent = new Intent(this, MinMinGuardIntro.class);
+        Intent intent = new Intent(this, AdReaperIntro.class);
         startActivity(intent);
     }
 

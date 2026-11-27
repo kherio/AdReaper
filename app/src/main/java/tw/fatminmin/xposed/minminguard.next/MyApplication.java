@@ -37,7 +37,7 @@ public class MyApplication extends Application
                     {
                         StringWriter sw = new StringWriter();
                         throwable.printStackTrace(new PrintWriter(sw));
-                        XposedBridge.log("MinMinGuard Next crash in " + thread.getName()
+                        XposedBridge.log("AdReaper crash in " + thread.getName()
                                 + ":\n" + sw.toString());
                     }
                     catch (Throwable ignored)

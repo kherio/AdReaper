@@ -9,7 +9,7 @@ import tw.fatminmin.xposed.minminguard.next.R;
 /**
  * Created by fatminmin on 2015/10/3.
  */
-public class MinMinGuardIntro extends AppIntro
+public class AdReaperIntro extends AppIntro
 {
     private static final String GREEN_COLOR = "#4CAE50";
 

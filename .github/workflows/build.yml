@@ -39,7 +39,7 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           # app/build.gradle resolves storeFile relative to the app module.
-          echo "$KEYSTORE_BASE64" | base64 -d > app/minminguard.keystore
+          echo "$KEYSTORE_BASE64" | base64 -d > app/adreaper.keystore
 
       - name: Build APKs
         env:
