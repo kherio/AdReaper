@@ -155,7 +155,14 @@
     <string name="action_statistics">Statistics</string>
     <string name="stats_total_blocked">Total ads blocked</string>
     <string name="stats_top_apps">Top apps</string>
-    <string name="stats_top_networks">Top ad networks</string>
+    <string name="stats_top_networks">Ad networks detected</string>
+    <string name="stats_summary">%1$d apps · %2$d SDKs · %3$s per day</string>
+    <string name="stats_show_all">Show all (%1$d)</string>
+    <string name="stats_apps_blocked_here">Apps</string>
+    <string name="stats_sdks_here">By SDK</string>
+    <string name="stats_latest_here">Latest blocks</string>
+    <string name="stats_no_details">No details logged yet</string>
+    <string name="stats_other">Other (unclassified)</string>
     <string name="stats_empty">No blocking data yet. Open some apps that show ads and check back later.</string>
     <string name="stats_apps_count">%1$d apps</string>
     <string name="stats_networks_count">%1$d networks</string>

@@ -263,4 +263,43 @@ public final class EventStore extends SQLiteOpenHelper
         }
         return out;
     }
+
+    /** Blocked ads per app for one SDK over the last {@code days} days, biggest first. */
+    public synchronized LinkedHashMap<String, Integer> appTotalsForSdk(String sdk, int days)
+    {
+        LinkedHashMap<String, Integer> out = new LinkedHashMap<>();
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT pkg, SUM(n) AS t FROM daily WHERE sdk = ? AND day > ? GROUP BY pkg ORDER BY t DESC",
+                new String[]{sdk, String.valueOf(today() - days)});
+        try
+        {
+            while (c.moveToNext()) out.put(c.getString(0), c.getInt(1));
+        }
+        finally
+        {
+            c.close();
+        }
+        return out;
+    }
+
+    /** Latest blocks of one app, each entry {timestamp, pkg, sdk, what}, newest first. */
+    public synchronized List<String[]> recentFor(String pkg, int limit)
+    {
+        List<String[]> out = new ArrayList<>();
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT ts, pkg, sdk, what FROM recent WHERE pkg = ? ORDER BY ts DESC LIMIT " + limit,
+                new String[]{pkg});
+        try
+        {
+            while (c.moveToNext())
+            {
+                out.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3)});
+            }
+        }
+        finally
+        {
+            c.close();
+        }
+        return out;
+    }
 }

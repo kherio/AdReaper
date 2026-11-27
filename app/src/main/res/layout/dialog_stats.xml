@@ -71,6 +71,15 @@
                 android:textSize="14sp"/>
 
         <TextView
+                android:id="@+id/stats_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="12sp"/>
+
+        <TextView
                 android:id="@+id/stats_alltime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,25 +96,29 @@
                 android:layout_marginBottom="16dp"/>
 
         <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/stats_sdks_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:text="@string/stats_by_sdk"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
 
-        <TextView
+        <LinearLayout
                 android:id="@+id/stats_sdks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="14sp"/>
+                android:orientation="vertical"/>
 
         <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/stats_apps_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:text="@string/stats_top_apps"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="15sp"
@@ -115,43 +128,43 @@
                 android:id="@+id/stats_apps_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical"/>
 
         <TextView
                 android:id="@+id/stats_recent_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:text="@string/stats_recent"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
 
-        <TextView
+        <LinearLayout
                 android:id="@+id/stats_recent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="12sp"/>
+                android:orientation="vertical"/>
 
         <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/stats_networks_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:text="@string/stats_top_networks"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
 
-        <TextView
+        <LinearLayout
                 android:id="@+id/stats_networks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="14sp"/>
+                android:orientation="vertical"/>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/stats_reset"
