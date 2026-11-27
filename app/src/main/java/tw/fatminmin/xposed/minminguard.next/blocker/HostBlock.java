@@ -109,7 +109,7 @@ public final class HostBlock
                 String host = addr.getHostName();
                 String ip = addr.getHostAddress();
 
-                Log.d("fatminmin_iobridge", host + ":" + ip);
+                Log.d("AdReaper_iobridge", host + ":" + ip);
 
                 if (Main.patterns.contains(host) || Main.patterns.contains(ip))
                 {

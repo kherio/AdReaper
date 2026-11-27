@@ -240,11 +240,11 @@ public class Main implements IXposedHookZygoteInit, IXposedHookLoadPackage
          * content://tw.fatminmin.xposed.minminguard.next/ used to report back ad networks and removed ads.
          *
          * To get around this the hooked app needs QUERY_ALL_PACKAGES. This hack dynamically adds that
-         * permission to every app MinMinGuard is enabled for, right before the permission state is
+         * permission to every app AdReaper is enabled for, right before the permission state is
          * (re-)restored by PackageManager, so it gets granted like a manifest-declared permission.
          *
          * Note that this requires hooking the system framework ("android" scope) and a reboot / app
-         * reinstall after enabling an app in MinMinGuard.
+         * reinstall after enabling an app in AdReaper.
          *
          * The hook must survive framework changes:
          *   - Android 11-14: com.android.server.pm.permission.PermissionManagerService

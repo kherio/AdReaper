@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MinMinGuard"
+rootProject.name = "AdReaper"
 
 // The :generator module is a greenDAO 2.x code generator that is no longer
 // needed - the generated DAO classes are checked in under app/src/main.

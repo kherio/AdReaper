@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-                android:name=".ui.MinMinGuardIntro"
+                android:name=".ui.AdReaperIntro"
                 android:label="@string/app_name"
                 android:exported="false"
                 android:theme="@style/FullscreenTheme">
@@ -64,7 +64,7 @@
                 android:exported="false"/>
 
         <provider
-                android:name=".MinMinProvider"
+                android:name=".AdReaperProvider"
                 android:authorities="tw.fatminmin.xposed.minminguard.next"
                 android:enabled="true"
                 android:exported="true"/>

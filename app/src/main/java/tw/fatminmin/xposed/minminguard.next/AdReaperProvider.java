@@ -13,7 +13,7 @@ import tw.fatminmin.xposed.minminguard.next.orm.DaoSession;
 
 import java.util.List;
 
-public class MinMinProvider extends ContentProvider
+public class AdReaperProvider extends ContentProvider
 {
 
     private DaoMaster.DevOpenHelper helper;

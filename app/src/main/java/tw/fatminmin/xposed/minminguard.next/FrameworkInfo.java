@@ -12,7 +12,7 @@ import java.util.List;
  * Runtime detection helpers used to show which Xposed framework and which root
  * manager (Magisk / KernelSU / APatch) the module is running under.
  *
- * MinMinGuard is a regular LSPosed module, so no special support code is needed
+ * AdReaper is a regular LSPosed module, so no special support code is needed
  * to run on KernelSU / APatch: install a Zygisk provider (ZygiskNext / NeoZygisk)
  * plus LSPosed or Vector, then enable the module. This class is purely informational.
  */

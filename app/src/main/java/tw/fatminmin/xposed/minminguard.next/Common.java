@@ -57,7 +57,7 @@ public class Common
     // Fragment Name
     public final static String FRG_MAIN = "main_fragment";
 
-    // MinMinProvider
+    // AdReaperProvider
     public final static String KEY_PKG_NAME = "PKG_NAME";
     public final static String KEY_NETWORK = "AD_NETWORKS";
     public final static String KEY_BLOCK_NUM = "BLOCK_NUM";

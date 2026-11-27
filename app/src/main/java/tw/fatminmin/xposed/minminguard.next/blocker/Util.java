@@ -25,7 +25,7 @@ public final class Util
 
     public static ExecutorService notifyWorker;
 
-    public static final String TAG = "MinMinGuard";
+    public static final String TAG = "AdReaper";
     private static final String PACKAGE = "tw.fatminmin.xposed.minminguard.next";
 
     private Util() throws InstantiationException
