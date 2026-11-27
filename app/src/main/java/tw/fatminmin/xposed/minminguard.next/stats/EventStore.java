@@ -38,7 +38,7 @@ public final class EventStore extends SQLiteOpenHelper
 
     private EventStore(Context ctx)
     {
-        super(ctx, "adreaper_events", null, 1);
+        super(ctx, "adreaper_events", null, 2);
     }
 
     @Override
@@ -48,11 +48,131 @@ public final class EventStore extends SQLiteOpenHelper
                 + " n INTEGER NOT NULL, PRIMARY KEY (day, pkg, sdk))");
         db.execSQL("CREATE TABLE candidates (pkg TEXT NOT NULL, kind TEXT NOT NULL, value TEXT NOT NULL,"
                 + " seen INTEGER NOT NULL, PRIMARY KEY (pkg, kind, value))");
+        createRecent(db);
+    }
+
+    private static void createRecent(SQLiteDatabase db)
+    {
+        db.execSQL("CREATE TABLE IF NOT EXISTS recent (ts INTEGER NOT NULL, pkg TEXT NOT NULL,"
+                + " sdk TEXT NOT NULL, what TEXT NOT NULL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        if (oldVersion < 2)
+        {
+            createRecent(db);
+        }
+    }
+
+    private static final int RECENT_KEEP = 200;
+    private static final long RECENT_DEDUPE_MS = 5000;
+
+    /** Logs what was blocked (class / rule). The same thing in the same app within 5 s counts once. */
+    public synchronized void addRecent(String pkg, String sdk, String what)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        long now = System.currentTimeMillis();
+        Cursor c = db.rawQuery("SELECT 1 FROM recent WHERE pkg = ? AND what = ? AND ts > ? LIMIT 1",
+                new String[]{pkg, what, String.valueOf(now - RECENT_DEDUPE_MS)});
+        boolean dup;
+        try
+        {
+            dup = c.moveToFirst();
+        }
+        finally
+        {
+            c.close();
+        }
+        if (dup) return;
+
+        ContentValues v = new ContentValues();
+        v.put("ts", now);
+        v.put("pkg", pkg);
+        v.put("sdk", sdk);
+        v.put("what", what);
+        db.insert("recent", null, v);
+        db.execSQL("DELETE FROM recent WHERE rowid NOT IN (SELECT rowid FROM recent ORDER BY ts DESC LIMIT "
+                + RECENT_KEEP + ")");
+    }
+
+    /** Each entry is {timestamp, pkg, sdk, what}, newest first. */
+    public synchronized List<String[]> recent(int limit)
+    {
+        List<String[]> out = new ArrayList<>();
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT ts, pkg, sdk, what FROM recent ORDER BY ts DESC LIMIT " + limit, null);
+        try
+        {
+            while (c.moveToNext())
+            {
+                out.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3)});
+            }
+        }
+        finally
+        {
+            c.close();
+        }
+        return out;
+    }
+
+    /** Blocked ads per app over the last {@code days} days (1 = today), biggest first. */
+    public synchronized LinkedHashMap<String, Integer> appTotals(int days)
+    {
+        LinkedHashMap<String, Integer> out = new LinkedHashMap<>();
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT pkg, SUM(n) AS t FROM daily WHERE day > ? GROUP BY pkg ORDER BY t DESC",
+                new String[]{String.valueOf(today() - days)});
+        try
+        {
+            while (c.moveToNext()) out.put(c.getString(0), c.getInt(1));
+        }
+        finally
+        {
+            c.close();
+        }
+        return out;
+    }
+
+    /** Per-SDK breakdown for one app over the last {@code days} days. */
+    public synchronized LinkedHashMap<String, Integer> sdkTotalsFor(String pkg, int days)
+    {
+        LinkedHashMap<String, Integer> out = new LinkedHashMap<>();
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT sdk, SUM(n) AS t FROM daily WHERE pkg = ? AND day > ? GROUP BY sdk ORDER BY t DESC",
+                new String[]{pkg, String.valueOf(today() - days)});
+        try
+        {
+            while (c.moveToNext()) out.put(c.getString(0), c.getInt(1));
+        }
+        finally
+        {
+            c.close();
+        }
+        return out;
+    }
+
+    public synchronized int total(int days)
+    {
+        Cursor c = getReadableDatabase().rawQuery("SELECT COALESCE(SUM(n), 0) FROM daily WHERE day > ?",
+                new String[]{String.valueOf(today() - days)});
+        try
+        {
+            return c.moveToFirst() ? c.getInt(0) : 0;
+        }
+        finally
+        {
+            c.close();
+        }
+    }
+
+    /** Deletes the daily counters and the recent log (candidates are kept). */
+    public synchronized void clearStats()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("daily", null, null);
+        db.delete("recent", null, null);
     }
 
     public static long today()
