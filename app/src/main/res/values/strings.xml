@@ -82,7 +82,16 @@
     <string name="rules_up_to_date">Block rules are already up to date</string>
     <string name="rules_update_failed">Could not download the block rules</string>
     <string name="stats_last_days">Last 7 days</string>
-    <string name="stats_by_sdk">Blocked by ad SDK (30 days)</string>
+    <string name="stats_by_sdk">Blocked by ad SDK</string>
+    <string name="stats_period_today">Today</string>
+    <string name="stats_period_7">7 days</string>
+    <string name="stats_period_30">30 days</string>
+    <string name="stats_period_90">90 days</string>
+    <string name="stats_alltime">All time: %1$d</string>
+    <string name="stats_recent">Latest blocks</string>
+    <string name="stats_reset">Reset statistics</string>
+    <string name="stats_reset_confirm">Delete the daily statistics and the latest blocks log?</string>
+    <string name="stats_none_period">Nothing blocked in this period</string>
     <string name="candidates_title">Ads detected by the Inspector</string>
     <string name="candidates_hint">Nothing detected yet. Turn on Inspector mode in Settings, use the app for a few seconds and come back here.</string>
     <string name="candidates_block">Block selected</string>

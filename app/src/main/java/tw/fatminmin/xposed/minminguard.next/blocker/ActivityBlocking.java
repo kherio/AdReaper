@@ -71,7 +71,7 @@ public final class ActivityBlocking
                             if (matches(clazz, packageName, lpparam))
                             {
                                 Util.log(packageName, "Finishing ad activity: " + clazz);
-                                Util.notifyRemoveAdView(null, packageName, 1);
+                                Util.notifyBlocked(packageName, SdkNames.label(clazz), 1, clazz);
                                 activity.finish();
                             }
                         }

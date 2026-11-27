@@ -159,6 +159,12 @@ public final class Util
     /** Like notifyRemoveAdView but also records which ad SDK the block belongs to. */
     public static void notifyBlocked(final String pkgName, final String sdk, final int blockNum)
     {
+        notifyBlocked(pkgName, sdk, blockNum, null);
+    }
+
+    /** @param what the view class, activity or rule that was blocked (shown in the statistics log) */
+    public static void notifyBlocked(final String pkgName, final String sdk, final int blockNum, final String what)
+    {
         final Context mContext = getCurrentApplication();
         if (mContext == null || notifyWorker == null) return;
         notifyWorker.submit(new Runnable()
@@ -172,6 +178,7 @@ public final class Util
                     values.put(Common.KEY_PKG_NAME, pkgName);
                     values.put(Common.KEY_BLOCK_NUM, blockNum);
                     values.put(Common.KEY_SDK, sdk);
+                    if (what != null) values.put(Common.KEY_WHAT, what);
                     mContext.getContentResolver().update(
                             Uri.parse("content://tw.fatminmin.xposed.minminguard.next/"), values, null, null);
                 }

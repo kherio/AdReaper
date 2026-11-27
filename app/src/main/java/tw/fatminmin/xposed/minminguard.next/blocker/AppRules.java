@@ -337,7 +337,7 @@ public final class AppRules
                         Class<?> returnType = member instanceof Method ? ((Method) member).getReturnType() : void.class;
 
                         Util.log(pkg, "AppRules: blocked " + rule.clazz + "#" + rule.method);
-                        Util.notifyBlocked(pkg, SdkNames.label(rule.clazz), 1);
+                        Util.notifyBlocked(pkg, SdkNames.label(rule.clazz), 1, rule.clazz + "#" + rule.method);
 
                         param.setResult(defaultResult(returnType, rule));
                     }

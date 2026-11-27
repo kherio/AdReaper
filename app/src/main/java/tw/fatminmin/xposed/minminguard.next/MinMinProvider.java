@@ -81,6 +81,12 @@ public class MinMinProvider extends ContentProvider
             String sdk = values.getAsString(Common.KEY_SDK);
             tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(getContext())
                     .addBlocked(pkgName, sdk != null ? sdk : "Other", events);
+            String what = values.getAsString(Common.KEY_WHAT);
+            if (what != null)
+            {
+                tw.fatminmin.xposed.minminguard.next.stats.EventStore.get(getContext())
+                        .addRecent(pkgName, sdk != null ? sdk : "Other", what);
+            }
         }
 
         String network = values.getAsString(Common.KEY_NETWORK);
