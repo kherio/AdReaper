@@ -133,6 +133,8 @@
     <string name="setting_user_rules_hint">{"apps":{"com.example.app":{"hide_view_ids":["ad_container"],"hide_view_classes":["com.foo.BannerView"],"kill_activities":["com.foo.AdActivity"],"block_methods":["com.foo.Ads#show"]}}}</string>
     <string name="msg_user_rules_saved">Rules saved. Restart the affected app to apply them.</string>
     <string name="msg_user_rules_invalid">Invalid JSON, rules not saved</string>
+    <string name="msg_network_blocking">Block connections to ad domains inside the apps (works with any ad SDK). May break apps that share servers with ads; restart the apps after changing it</string>
+    <string name="msg_feed_ads">Hide native ads in lists (rows labelled Ad, Sponsored, Promoted...)</string>
     <string name="msg_aggressive_mode">Aggressive mode: also block anything named like an ad (views, library activities, web ads). May hide some normal content; restart the apps after changing it</string>
     <string name="msg_inspector_mode">Inspector mode: log suspected ad views and activities in the Xposed log</string>
     <string name="msg_config_exported">Configuration exported</string>

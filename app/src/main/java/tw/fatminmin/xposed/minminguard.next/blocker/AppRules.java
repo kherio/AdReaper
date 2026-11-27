@@ -91,6 +91,7 @@ public final class AppRules
         final List<String> viewIdPrefixes = new ArrayList<>();
         final List<String> activityPrefixes = new ArrayList<>();
         final List<MethodRule> methods = new ArrayList<>();
+        final Set<String> hosts = new HashSet<>();
 
         boolean hasViewRules()
         {
@@ -160,6 +161,30 @@ public final class AppRules
         }
     }
 
+    /** True when the host, or any parent domain of it, is in the "blocked_hosts" rules. */
+    public static boolean matchesHost(String pkg, String host)
+    {
+        Set<String> hosts = forPackage(pkg).hosts;
+        if (hosts.isEmpty())
+        {
+            return false;
+        }
+        String h = host;
+        while (true)
+        {
+            if (hosts.contains(h))
+            {
+                return true;
+            }
+            int dot = h.indexOf('.');
+            if (dot < 0 || h.indexOf('.', dot + 1) < 0)
+            {
+                return false; /* never match a bare top level domain such as "com" */
+            }
+            h = h.substring(dot + 1);
+        }
+    }
+
     private static JSONObject readPrefJson(String key)
     {
         try
@@ -213,6 +238,13 @@ public final class AppRules
 
         addStrings(o.optJSONArray("hide_view_classes"), set.viewClassPrefixes);
         addStrings(o.optJSONArray("kill_activities"), set.activityPrefixes);
+
+        List<String> hostRules = new ArrayList<>();
+        addStrings(o.optJSONArray("blocked_hosts"), hostRules);
+        for (String h : hostRules)
+        {
+            set.hosts.add(h.toLowerCase(java.util.Locale.ROOT));
+        }
 
         JSONArray ids = o.optJSONArray("hide_view_ids");
         if (ids != null)
